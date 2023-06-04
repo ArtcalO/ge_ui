@@ -9,21 +9,11 @@ import Cours from '../views/CoursView.vue'
 
 
 // Forms
-import completerProfil from '@/views/forms/completerProfil.vue'
 import addCourseView from '@/views/forms/addCourseView.vue'
-import addFormulesView from '@/views/forms/addFormulesView.vue'
 import addProfessorView from '@/views/forms/addProfessorView.vue'
 import addSectionView from '@/views/forms/addSectionView.vue'
 import addClasseView from '@/views/forms/addClasseView.vue'
 import addNiveauView from '@/views/forms/addNiveauView.vue'
-import addCycleView from '@/views/forms/addCycleView.vue'
-import addExerciceView from '@/views/forms/addExerciceView.vue'
-import addExerciceCSPView from '@/views/forms/addExerciceCSPView.vue'
-import addChapitreView from '@/views/forms/addChapitreView.vue'
-import addSpecialCourseView from '@/views/forms/addSpecialCourseView.vue'
-import addChapterCSPView from '@/views/forms/addChapterCSPView.vue'
-import addEnfant from '@/views/forms/addEnfant.vue'
-
 //modifier routes
 
 import modifierChapitreView from '@/views/forms/modifierChapitreView.vue'
@@ -39,20 +29,11 @@ const routes = [
 
 
     // Forms routes
-    { path: '/cours/ajouter/:id', component: addCourseView },
-    { path: '/formules/ajouter/:id', component: addFormulesView },
-    { path: '/cours-speciaux/ajouter', component: addSpecialCourseView },
     { path: '/professeurs/ajouter', component: addProfessorView },
     { path: '/sections/ajouter', component: addSectionView },
     { path: '/classes/ajouter', component: addClasseView },
     { path: '/niveaux/ajouter', component: addNiveauView },
     { path: '/cycles/ajouter', component: addCycleView },
-    { path: '/exercices-csp/ajouter/:id', component: addExerciceCSPView },
-    { path: '/exercices/ajouter/:id', component: addExerciceView },
-    { path: '/chapitre/ajouter/:id', component: addChapitreView },
-    { path: '/chapitre-csp/ajouter/:id', component: addChapterCSPView },
-    { path: '/enfants/ajouter',  component: addEnfant },
-
     //modify
 
     { path: '/professeurs/modifier/:id', component: addProfessorView },
