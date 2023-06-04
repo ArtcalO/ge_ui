@@ -4,20 +4,19 @@
 			<app-menu :profilProp="profilObj" />
 		</div>
 		<div v-else>
-			<WrapperPage/>
+			<LoginView/>
 		</div>
-			<dialogComplete />
 	</v-app>
 </template>
 
 <script>
-import WrapperPage from "./views/account/WrapperPage.vue";
+import LoginView from "./views/LoginView.vue";
 import AppMenu from "./components/appMenu.vue";
 import dialogComplete from "@/components/dialogComplete.vue";
 export default {
 	components: {
 		AppMenu,
-		WrapperPage,
+		LoginView,
 		dialogComplete,
 	},
 	data(){
