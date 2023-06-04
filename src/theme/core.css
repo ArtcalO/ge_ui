@@ -1,0 +1,33 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+ion-toolbar {
+	--min-height: 56px;
+	padding-inline: 16px;
+}
+
+.toolbar-container {
+	padding: 0 !important;
+}
+
+ion-content {
+	overflow-y: auto;
+}
+
+ion-avatar {
+	width: 32px;
+	height: 32px;
+}
+
+a {
+	text-decoration: none !important;
+}
+
+.container {
+	width: 100%;
+	margin: auto;
+	padding: 0 16px;
+}
