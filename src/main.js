@@ -172,64 +172,6 @@ app.mixin({
                     title
             }
         },
-        openModal() {
-            const modal = document.querySelector("#modal");
-            modal.showModal();
-        },
-        getTitle(vm) {
-            const { title } = vm.$options
-            if (title) {
-                return typeof title === 'function' ?
-                    title.call(vm) :
-                    title
-            }
-        },
-        openModal() {
-            const modal = document.querySelector("#modal");
-            modal.showModal();
-        },
-        closeModal() {
-            const modal = document.querySelector("#modal");
-            const confirm = document.querySelector("#confirm");
-            const cours = document.querySelector("#cours");
-            const section = document.querySelector("#section");
-            const cycle = document.querySelector("#cycle");
-            const chapitre = document.querySelector("#chapitre");
-            const exercice = document.querySelector("#exercice");
-            const reponses_exercices = document.querySelector("#reponses_exercices");
-            const profil_complete = document.querySelector("#profil-complete");
-
-            if (modal) {
-                modal.close();
-            }
-            if (cours) {
-                cours.close();
-            }
-            if (section) {
-                section.close();
-            }
-            if (cycle) {
-                cycle.close();
-            }
-            if (chapitre) {
-                chapitre.close();
-            }
-            if (exercice) {
-                exercice.close();
-            }
-            if (reponses_exercices) {
-                window.location.reload();
-                reponses_exercices.close();
-            }
-            if (profil_complete) {
-                profil_complete.close();
-            }
-            if (confirm) {
-                confirm.close();
-                this.$emit("close");
-            }
-        },
-        // Options Menu
         clearMenu() {
             let menus = document.querySelectorAll(".menu-options");
             menus.forEach((item) => {
@@ -289,17 +231,8 @@ app.mixin({
         is_admin(){
            return this.$store.state.user.is_admin
         },
-        is_student(){
+        is_comptable(){
            return this.$store.state.user.groups.includes('Eleve')
-        },
-        is_parent(){
-           return this.$store.state.user.groups.includes('Parent')
-        },
-        is_prof(){
-           return this.$store.state.user.groups.includes('Professeur')
-        },
-        student_class_id(){
-            return this.$store.state.user.current_student.classe.id
         },
         url() {
             return this.$store.state.url

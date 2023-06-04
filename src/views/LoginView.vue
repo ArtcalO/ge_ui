@@ -80,12 +80,7 @@ export default {
         axios
           .post(this.url + "/login/", data)
           .then((response) => {
-            console.log(response)
             this.$store.state.user = response.data;
-            this.$store.state.notification = {
-              type: "success",
-              message: response.data.status,
-            };
           })
           .catch((error) => {
             this.loading=false
