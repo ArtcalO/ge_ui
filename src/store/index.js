@@ -3,8 +3,8 @@ import { createStore } from 'vuex'
 export default createStore({
     state: {
         user: null,
-        /*url: 'http://127.0.0.1:8000/api',*/
-        url: '/api',
+        url: 'http://127.0.0.1:8000/api',
+        /*url: '/api',*/
         /*url:'https://app.igatechburundi.com/api',*/
         notification: { type: "", message: "" },
         spinner:false,

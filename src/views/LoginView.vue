@@ -28,7 +28,18 @@
         ></v-text-field>
 
         <br>
-
+        <v-alert
+          v-if="error"
+          border="start"
+          border-color="deep-warning accent-4"
+          variant="outlined"
+          type="warning"
+          prominent
+          density="compact"
+          title="Attention"
+          :text="error"
+          class="mb-2"
+        ></v-alert>
         <v-btn
           :disabled="!form"
           :loading="loading"
@@ -53,7 +64,7 @@ export default {
     return {
       loading: false,
       form: false,
-
+      error:"",
       username: "",
       password: "",
     };
@@ -77,10 +88,11 @@ export default {
             };
           })
           .catch((error) => {
+            this.loading=false
             if(error && error.response.data.detail)
-                this.triggerNotifiaction("danger", error.response.data.detail)
+                this.error=error.response.data.detail
             else
-              this.triggerNotifiaction("danger", "Verifiez vos identifiants !")
+              this.error="Verifiez vos identifiants !"
           });        
       },
       required (v) {
