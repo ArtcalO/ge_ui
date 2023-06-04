@@ -61,21 +61,21 @@ export default {
 		if(this.$route.params.id){
 			axios.get(`${this.url}/professeurs/${this.$route.params.id}/`, this.headers)
 			.then((res)=>{
-				this.current_teacher=res.data
+				this.current_professor=res.data
 			}).catch((err)=>{
 				console.log(erro)
 			}).finally(()=>{
 				this.username =
-					this.current_teacher.user.username;
+					this.current_professor.user.username;
 				this.first_name =
-					this.current_teacher.user.first_name;
+					this.current_professor.user.first_name;
 				this.last_name =
-					this.current_teacher.user.last_name;
+					this.current_professor.user.last_name;
 				this.password =
-					this.current_teacher.user.password;
+					this.current_professor.user.password;
 				this.telephone =
-					this.current_teacher.telephone;
-				this.genre = this.current_teacher.genre;
+					this.current_professor.telephone;
+				this.genre = this.current_professor.genre;
 			})
 			
 		}

@@ -137,6 +137,7 @@
 </template>
 <script>
   export default{
+    title:"Acceuil",
     created(){
       if(this.is_student)
         this.$router.push("/classes")

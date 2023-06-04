@@ -15,7 +15,7 @@
 				style="max-width: 300px"
 			></v-text-field>
 			<v-btn
-				to="/professeurs/ajouter"
+				to="/personnels/ajouter"
 				color="primary"
 				class="btn btn-primary"
 			>

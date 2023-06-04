@@ -1,13 +1,9 @@
 <template>
 	<div class="dashboard">
-		<v-app-bar app clipped-left color="primary">
+		<v-app-bar app clipped-left>
 			<v-app-bar-nav-icon @click.stop="rail = !rail"></v-app-bar-nav-icon>
-			<v-app-bar-title>IGATECH</v-app-bar-title>
+			<v-app-bar-title>ECONOMAT</v-app-bar-title>
 			<v-spacer></v-spacer>
-
-			<!-- <v-avatar color="secondary">
-				<span class="white--text headline">J</span>
-			</v-avatar> -->
 			<v-btn
 				variant="text"
 				icon="mdi-power"
@@ -23,17 +19,9 @@
 			@click="rail = false"
 			clipped
 		>
-			<v-list v-if="!profilProp" density="compact" nav active-color="primary">
+			<v-list density="compact" nav active-color="primary">
+
 				<v-list-item
-					v-if="is_student"
-					prepend-icon="mdi-account"
-					:title="getName()"
-					nav
-					to="/completer-profil"
-					color="primary"
-				></v-list-item>
-				<v-list-item
-					v-if="!is_student"
 					prepend-icon="mdi-account"
 					:title="getName()"
 					nav
@@ -44,7 +32,7 @@
 					v-if="is_admin"
 					exact
 					prepend-icon="mdi-home-city"
-					title="Home"
+					title="Accueil"
 					value="home"
 					to="/"
 				></v-list-item>
@@ -52,8 +40,8 @@
 					exact
 					v-if="is_admin"
 					prepend-icon="mdi-account-group-outline"
-					to="/professeurs"
-					title="Professeurs"
+					to="/personnels"
+					title="Personnels"
 				>
 				</v-list-item>
 				<v-list-item
@@ -74,50 +62,10 @@
 				</v-list-item>
 				<v-list-item
 					exact
-					v-if="is_parent"
-					to="/enfants"
-					title="Enfants"
-					prepend-icon="mdi-road-variant"
-				>
-				</v-list-item>
-				<v-list-item
-					exact
-					v-if="!is_prof"
+					v-if="is_admin"
 					to="/classes"
 					title="Classes"
 					prepend-icon="mdi-door-open"
-				>
-				</v-list-item>
-				<v-list-item
-					v-if="is_prof || is_admin"
-					exact
-					to="/cours"
-					title="Cours"
-					prepend-icon="mdi-book"
-				>
-				</v-list-item>
-				<v-list-item
-					exact
-					v-if="is_admin || is_prof || canViewSP()"
-					to="/cours-speciaux"
-					title="Cours Speciaux"
-					prepend-icon="mdi-stairs-box"
-				>
-				</v-list-item>
-				<v-list-item
-					exact
-					v-if="is_student"
-					to="/epreuves-types"
-					title="Epreuves Types"
-					prepend-icon="mdi-stairs-box"
-				>
-				</v-list-item>
-				<v-list-item
-					exact
-					v-if="is_student"
-					to="/formules"
-					title="Formules"
-					prepend-icon="mdi-stairs-box"
 				>
 				</v-list-item>
 			</v-list>
@@ -152,13 +100,10 @@ export default {
           		return false
         },
 		getName() {
-			if(this.is_student)
-				return this.$store.state.user.current_student.first_name+" "+this.$store.state.user.current_student.last_name
+			if(this.is_admin) return this.store.user.username
+			else return this.store.user.first_name+' '+this.store.user.last_name
 		},
-		getInital() {
-			if(this.is_student)
-				return this.$store.state.user.current_student.first_name[0]+""+this.$store.state.user.current_student.last_name[0]
-		},
+		
 	},
 };
 </script>

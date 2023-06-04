@@ -203,24 +203,8 @@ app.mixin({
             }
             return result;
         },
-        canViewSP(){
-            return ![1,2,3,4,5,6,7].includes(this.student_class_id)
-        },
         currentYear(){
             return new Date().getFullYear()
-        },
-        showMenu(e) {
-            let menu = e.target.closest('.act').querySelector('.menu-options')
-            menu.style.top = `${e.clientY - 100}px`
-            menu.style.left = `${e.clientX - 220}px`
-            if (e.target.nextElementSibling.classList.contains("show-menu")) {
-                this.clearMenu();
-            } else {
-                this.clearMenu();
-                e.target.nextElementSibling.classList.add("animate__animated");
-                e.target.nextElementSibling.classList.add("animate__fadeIn");
-                e.target.nextElementSibling.classList.add("show-menu");
-            }
         },
     },
     //arr.slice(Math.max(arr.length - 5, 1))
