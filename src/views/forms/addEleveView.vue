@@ -4,34 +4,41 @@
 			<v-col cols="8">
 				<v-form @submit.prevent="performAction" class="form">
 					<v-text-field
-						label="Nom d'utilisateur"
-						v-model="username"
-					></v-text-field>
-					<v-text-field
+						variant="outlined"
 						label="Nom"
-						v-model="first_name"
+						v-model="nom"
 					></v-text-field>
 					<v-text-field
+						variant="outlined"
 						label="Prénom"
-						v-model="last_name"
+						v-model="prenom"
 					></v-text-field>
 					<v-text-field
-						label="Mot de passe"
-						v-model="password"
-					></v-text-field>
-					<v-text-field
-						label="Téléphone"
-						v-model="telephone"
+						variant="outlined"
+						label="Date de naissance"
+						v-model="date_naissance"
+						type="date"
+						required
 					></v-text-field>
 					<v-autocomplete
+						label="Genre"
+						variant="outlined"
 						:items="['Masculin', 'Féminin']"
 						v-model="genre"
 					></v-autocomplete>
-
+					<v-autocomplete
+						variant="outlined"
+						label="Classes"
+						:items="classes"
+						item-title="classe_full_name"
+						item-value="id"
+						v-model="classe"
+						required
+					></v-autocomplete>
 					<v-btn v-if="$route.params.id" class="btn btn-primary" type="submit"
 						>Modifier</v-btn
 					>
-					<v-btn v-else class="btn btn-primary" type="submit"
+					<v-btn v-else class="btn btn-primary-alt" type="submit"
 						>Enregistrer</v-btn
 					>
 				</v-form>
@@ -48,62 +55,66 @@ export default {
 	props: ["edit"],
 	data() {
 		return {
-			personnel_active:[],
-			username: "",
-			last_name: "",
-			first_name: "",
-			password: "",
-			telephone: "",
+			eleve_actif:[],
+			nom: "",
+			prenom: "",
 			genre: "",
+			date_naissance: "",
+			classe: "",
+			classes:[],
 		};
 	},
 	created(){
 		if(this.$route.params.id){
-			axios.get(`${this.url}/personnels/${this.$route.params.id}/`, this.headers)
+			axios.get(`${this.url}/eleves/${this.$route.params.id}/`, this.headers)
 			.then((res)=>{
-				this.personnel_active=res.data
+				this.eleve_actif=res.data
 			}).catch((err)=>{
 				console.log(erro)
 			}).finally(()=>{
 				this.username =
-					this.personnel_active.user.username;
+					this.eleve_actif.user.username;
 				this.first_name =
-					this.personnel_active.user.first_name;
+					this.eleve_actif.user.first_name;
 				this.last_name =
-					this.personnel_active.user.last_name;
+					this.eleve_actif.user.last_name;
 				this.password =
-					this.personnel_active.user.password;
+					this.eleve_actif.user.password;
 				this.telephone =
-					this.personnel_active.telephone;
-				this.genre = this.personnel_active.genre;
+					this.eleve_actif.telephone;
+				this.genre = this.eleve_actif.genre;
 			})
 			
+		}
+	},
+	beforeMount(){
+		if(this.$store.state.user){
+			this.getClasses()
 		}
 	},
 	methods: {
 		performAction() {
 			let data = new FormData();
-			data.append("user.username", this.username);
-			data.append("user.first_name", this.first_name);
-			data.append("user.last_name", this.last_name);
-			data.append("user.password", this.password);
-			data.append("telephone", this.telephone);
+			data.append("nom", this.nom);
+			data.append("prenom", this.prenom);
 			data.append("genre", this.genre);
+			data.append("date_naissance", this.date_naissance);
+			data.append("classe", this.classe);
 
 			this.$store.state.loading = true;
 			if (this.$route.params.id) {
 				axios
 					.patch(
-						`${this.url}/personnels/${this.$route.params.id}/`,
+						`${this.url}/eleves/${this.$route.params.id}/`,
 						data,
 						this.headers
 					)
 					.then((res) => {
-						this.$router.push('/personnels')
+						this.$router.push('/eleves')
 						Swal.fire({
 							icon: 'success',
 							title: 'Success...',
-							text: 'Professeur modifié avec success !',
+							text: 'Eleve modifié avec success !',
 							footer: 'Success'
 						})
 					})
@@ -112,13 +123,13 @@ export default {
 					});
 			} else {
 				axios
-					.post(`${this.url}/personnels/`, data, this.headers)
+					.post(`${this.url}/eleves/`, data, this.headers)
 					.then((res) => {
-						this.$router.push("/personnels");
+						this.$router.push("/eleves");
 						Swal.fire({
 							icon: 'success',
 							title: 'Success...',
-							text: 'Professeur ajoutée avec succès !',
+							text: 'Eleve ajouté avec succès !',
 							footer: 'Success'
 						})
 					})
@@ -129,13 +140,22 @@ export default {
 					
 			}
 		},
+		getClasses() {
+			axios
+			.get(`${this.url}/classes/`, this.headers)
+			.then((res) => {
+				this.classes = res.data.results;
+			})
+			.catch((err) => {
+				this.displayErrorOrRefreshToken(err,this.getClasses);
+			})
+		},
 		clearInputs() {
-			this.username = "";
-			this.first_name = "";
-			this.last_name = "";
-			this.password = "";
-			this.telephone = "";
+			this.nom = "";
+			this.prenom = "";
 			this.genre = "";
+			this.date_naissance = "";
+			this.classe = "";
 
 			if (this.edit) {
 				this.$emit("resetEdit");

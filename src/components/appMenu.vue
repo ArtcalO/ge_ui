@@ -68,6 +68,14 @@
 					prepend-icon="mdi-door-open"
 				>
 				</v-list-item>
+				<v-list-item
+					exact
+					v-if="is_directeur"
+					to="/eleves"
+					title="Eleves"
+					prepend-icon="mdi-door-open"
+				>
+				</v-list-item>
 			</v-list>
 		</v-navigation-drawer>
 		<v-main>

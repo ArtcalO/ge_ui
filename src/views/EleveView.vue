@@ -15,7 +15,7 @@
 				style="max-width: 300px"
 			></v-text-field>
 			<v-btn
-				to="/personnels/ajouter"
+				to="/eleves/ajouter"
 				color="primary"
 				class="btn btn-primary"
 			>
@@ -31,11 +31,11 @@
 				>
 					<thead class="header-table">
 						<tr>
-							<th>Username</th>
 							<th>Nom</th>
 							<th>Prenom</th>
-							<th>Telephone</th>
 							<th>Genre</th>
+							<th>Date de naissance</th>
+							<th>Classe</th>
 							<th class="action text-center">Actions</th>
 						</tr>
 					</thead>
@@ -44,15 +44,15 @@
 							<td colspan="6"></td>
 						</tr>
 						<tr
-							v-for="professeur in personnels"
-							:key="professeur.id"
+							v-for="eleve in eleves"
+							:key="eleve.id"
 							v-else
 						>
-							<td>{{ professeur.user.username }}</td>
-							<td>{{ professeur.user.first_name }}</td>
-							<td>{{ professeur.user.last_name }}</td>
-							<td>{{ professeur.telephone }}</td>
-							<td>{{ professeur.genre }}</td>
+							<td>{{ eleve.nom }}</td>
+							<td>{{ eleve.prenom }}</td>
+							<td>{{ eleve.genre }}</td>
+							<td>{{ eleve.date_naissance }}</td>
+							<td>{{ eleve.classe.fullname }}</td>
 							<td class="text-center">
 								<v-menu>
 									<template v-slot:activator="{ props }">
@@ -65,7 +65,7 @@
 
 									<v-list>
 										<v-list-item
-											@click="$router.push('/personnels/modifier/'+professeur.id)"
+											@click="$router.push('/eleves/modifier/'+eleve.id)"
 										>
 											<v-list-item-title>
 												<v-icon
@@ -95,7 +95,7 @@ export default {
 	},
 	data() {
 		return {
-			personnels: [],
+			eleves: [],
 			keyword: "",
 			edit: false,
 			request: {},
@@ -104,34 +104,23 @@ export default {
 		};
 	},
 	methods: {
-		getpersonnels() {
+		getEleves() {
 			axios
-				.get(`${this.url}/personnels/`, this.headers)
+				.get(`${this.url}/eleves/`, this.headers)
 				.then((res) => {
-					this.personnels = res.data.results;
-					this.pages = this.pagination(
-						res.data.count,
-						this.personnels.length
-					);
+					this.eleves = res.data.results;
 					this.searching = false;
 				})
 				.catch((err) => {
-					this.displayErrorOrRefreshToken(err, this.getpersonnels);
+					this.displayErrorOrRefreshToken(err, this.getEleves);
 				});
-		},
-		getCreated(created) {
-			if (this.edit) {
-				this.personnels[
-					this.personnels.indexOf(this.$store.state.current_teacher)
-				] = created;
-			} else this.personnels.unshift(created);
 		},
 		supprimer(x) {
 			axios
-				.delete(`${this.url}/personnels/${x.id}/`, this.headers)
+				.delete(`${this.url}/eleves/${x.id}/`, this.headers)
 				.then(() => {
-					let id = this.personnels.indexOf((i) => i.id === x.id);
-					this.personnels.splice(id, 1);
+					let id = this.eleves.indexOf((i) => i.id === x.id);
+					this.eleves.splice(id, 1);
 					this.$store.state.notification = {
 						type: "success",
 						message: "Professeur supprimé avec succès",
@@ -147,7 +136,7 @@ export default {
 	},
 	mounted() {
 		if (this.is_directeur) {
-			this.getpersonnels()
+			this.getEleves()
 		} else this.$router.push("/");
 	},
 };

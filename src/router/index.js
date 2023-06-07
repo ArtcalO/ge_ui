@@ -4,15 +4,16 @@ import Personnel from '../views/PersonnelView.vue'
 import Niveau from '../views/NiveauView.vue'
 import Section from '../views/SectionView.vue'
 import Classe from '../views/ClasseView.vue'
+import Eleve from '../views/EleveView.vue'
 
 
 
 // Forms
-import addCourseView from '@/views/forms/addCourseView.vue'
 import ajouterPersonnel from '@/views/forms/ajouterPersonnel.vue'
 import addSectionView from '@/views/forms/addSectionView.vue'
 import addClasseView from '@/views/forms/addClasseView.vue'
 import addNiveauView from '@/views/forms/addNiveauView.vue'
+import addEleveView from '@/views/forms/addEleveView.vue'
 //modifier routes
 
 
@@ -22,6 +23,7 @@ const routes = [
     { path: '/sections', name: 'Section', component: Section },
     { path: '/niveaux', name: 'Niveau', component: Niveau },
     { path: '/classes', name: 'Classe', component: Classe },
+    { path: '/eleves', name: 'Eleve', component: Eleve },
 
 
     // Forms routes
@@ -29,6 +31,7 @@ const routes = [
     { path: '/sections/ajouter', component: addSectionView },
     { path: '/classes/ajouter', component: addClasseView },
     { path: '/niveaux/ajouter', component: addNiveauView },
+    { path: '/eleves/ajouter', component: addEleveView },
     //modify
 
     { path: '/personnels/modifier/:id', component: ajouterPersonnel },
