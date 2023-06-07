@@ -29,7 +29,7 @@
 				>
 				</v-list-item>
 				<v-list-item
-					v-if="is_admin"
+					v-if="is_directeur"
 					exact
 					prepend-icon="mdi-home-city"
 					title="Accueil"
@@ -38,7 +38,7 @@
 				></v-list-item>
 				<v-list-item
 					exact
-					v-if="is_admin"
+					v-if="is_directeur"
 					prepend-icon="mdi-account-group-outline"
 					to="/personnels"
 					title="Personnels"
@@ -46,7 +46,7 @@
 				</v-list-item>
 				<v-list-item
 					exact
-					v-if="is_admin"
+					v-if="is_directeur"
 					to="/niveaux"
 					title="Niveaux"
 					prepend-icon="mdi-stairs-box"
@@ -54,7 +54,7 @@
 				</v-list-item>
 				<v-list-item
 					exact
-					v-if="is_admin"
+					v-if="is_directeur"
 					to="/sections"
 					title="Sections"
 					prepend-icon="mdi-road-variant"
@@ -62,7 +62,7 @@
 				</v-list-item>
 				<v-list-item
 					exact
-					v-if="is_admin"
+					v-if="is_directeur"
 					to="/classes"
 					title="Classes"
 					prepend-icon="mdi-door-open"
@@ -100,7 +100,7 @@ export default {
           		return false
         },
 		getName() {
-			if(this.is_admin) return this.store.user.username
+			if(this.is_directeur) return this.store.user.username
 			else return this.store.user.first_name+' '+this.store.user.last_name
 		},
 		

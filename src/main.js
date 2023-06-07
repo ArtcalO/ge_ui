@@ -79,9 +79,6 @@ app.mixin({
             this.$store.state.disconnected = true
             this.$router.replace("/")
         },
-        user_is(name) {
-            return this.$store.state.user.groups.includes(name)
-        },
         loadGroups() {
             axios.get(this.url + 'groups/', this.headers)
                 .then((res) => {
@@ -212,11 +209,11 @@ app.mixin({
         user() {
             return this.$store.state.user
         },
-        is_admin(){
-           return this.$store.state.user.is_admin
+        is_directeur(){
+           return this.$store.state.user.is_admin || this.$store.state.user.groups.include("directeur")
         },
         is_comptable(){
-           return this.$store.state.user.groups.includes('Eleve')
+           return this.$store.state.user.groups.includes('econome')
         },
         url() {
             return this.$store.state.url
