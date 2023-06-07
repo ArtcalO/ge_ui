@@ -137,9 +137,6 @@ export default {
 						type: "success",
 						message: "Section supprimé avec succès",
 					};
-					setTimeout(() => {
-						this.closeModal();
-					}, 4000);
 				})
 				.catch((err) => {
 					this.displayErrorOrRefreshToken(err, this.supprimer);
