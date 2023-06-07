@@ -182,7 +182,7 @@ export default {
 
 	},
 	mounted() {
-		if (this.user_is("Professeur")) {
+		if (!this.is_directeur) {
 			this.$router.push("/");
 		} else this.getNiveaus();
 	},

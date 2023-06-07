@@ -101,10 +101,6 @@ export default {
 				.get(`${this.url}/sections/`, this.headers)
 				.then((res) => {
 					this.sections = res.data.results;
-					this.pages = this.pagination(
-						res.data.count,
-						this.sections.length
-					);
 					this.searching = false;
 				})
 				.catch((err) => {
@@ -149,27 +145,9 @@ export default {
 					this.displayErrorOrRefreshToken(err, this.supprimer);
 				});
 		},
-		search() {
-			axios
-				.get(
-					`${this.url}/sections/?search=${this.keyword}`,
-					this.headers
-				)
-				.then((res) => {
-					this.sections = res.data.results;
-					this.pages = this.pagination(
-						res.data.count,
-						this.sections.length
-					);
-					this.searching = true;
-				})
-				.catch((err) => {
-					this.displayErrorOrRefreshToken(err, this.search);
-				});
-		},
 	},
 	mounted() {
-		if (this.user_is("Professeur")) {
+		if (!this.is_directeur) {
 			this.$router.push("/");
 		} else this.getSections();
 	},

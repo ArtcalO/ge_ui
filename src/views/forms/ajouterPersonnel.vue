@@ -48,7 +48,7 @@ export default {
 	props: ["edit"],
 	data() {
 		return {
-			current_professor:[],
+			personnel_active:[],
 			username: "",
 			last_name: "",
 			first_name: "",
@@ -59,23 +59,23 @@ export default {
 	},
 	created(){
 		if(this.$route.params.id){
-			axios.get(`${this.url}/professeurs/${this.$route.params.id}/`, this.headers)
+			axios.get(`${this.url}/personnels/${this.$route.params.id}/`, this.headers)
 			.then((res)=>{
-				this.current_professor=res.data
+				this.personnel_active=res.data
 			}).catch((err)=>{
 				console.log(erro)
 			}).finally(()=>{
 				this.username =
-					this.current_professor.user.username;
+					this.personnel_active.user.username;
 				this.first_name =
-					this.current_professor.user.first_name;
+					this.personnel_active.user.first_name;
 				this.last_name =
-					this.current_professor.user.last_name;
+					this.personnel_active.user.last_name;
 				this.password =
-					this.current_professor.user.password;
+					this.personnel_active.user.password;
 				this.telephone =
-					this.current_professor.telephone;
-				this.genre = this.current_professor.genre;
+					this.personnel_active.telephone;
+				this.genre = this.personnel_active.genre;
 			})
 			
 		}
@@ -94,12 +94,12 @@ export default {
 			if (this.$route.params.id) {
 				axios
 					.patch(
-						`${this.url}/professeurs/${this.$route.params.id}/`,
+						`${this.url}/personnels/${this.$route.params.id}/`,
 						data,
 						this.headers
 					)
 					.then((res) => {
-						this.$router.push('/professeurs')
+						this.$router.push('/personnels')
 						Swal.fire({
 							icon: 'success',
 							title: 'Success...',
@@ -112,9 +112,9 @@ export default {
 					});
 			} else {
 				axios
-					.post(`${this.url}/professeurs/`, data, this.headers)
+					.post(`${this.url}/personnels/`, data, this.headers)
 					.then((res) => {
-						this.$router.push("/professeurs");
+						this.$router.push("/personnels");
 						Swal.fire({
 							icon: 'success',
 							title: 'Success...',

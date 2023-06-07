@@ -82,10 +82,14 @@ export default {
 					.post(`${this.url}/sections/`, data, this.headers)
 					.then((res) => {
 						this.$emit("update", res.data);
-						this.closeModal();
-						this.successAllert({
-							body: "Section ajoutée avec succès",
-						});
+						Swal.fire({
+								icon: 'success',
+								title: 'Success...',
+								text: 'Section ajoutée avec success !',
+							}).then(()=>{
+								this.$router.go(-1)
+							})
+						
 					})
 					.catch((err) => {
 						this.displayErrorOrRefreshToken(err, this.Post);

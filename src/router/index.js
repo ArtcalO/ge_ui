@@ -16,8 +16,6 @@ import addClasseView from '@/views/forms/addClasseView.vue'
 import addNiveauView from '@/views/forms/addNiveauView.vue'
 //modifier routes
 
-import modifierChapitreView from '@/views/forms/modifierChapitreView.vue'
-
 
 const routes = [
     { path: '/', name: 'home', component: HomeView },
@@ -36,7 +34,6 @@ const routes = [
     //modify
 
     { path: '/personnels/modifier/:id', component: ajouterPersonnel },
-    { path: '/chapitre/modifier/:id',  component: modifierChapitreView },
     { path: '/niveaux/modifier/:id',  component: addNiveauView },
     { path: '/sections/modifier/:id', component: addSectionView },
     { path: '/classes/modifier/:id', component: addClasseView },

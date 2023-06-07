@@ -90,25 +90,59 @@ app.mixin({
         getIcon(name) {
             return allIcons[name]
         },
-        
-        displayErrorOrRefreshToken(callback) {
-            let refresh = this.$store.state.user.refresh
-            if (!refresh) {
-                this.$store.state.user = null;
+    cleanString(str){
+      if ((str===null) || (str==='')){
+        return ""
+      }
+      if(JSON.stringify(str).includes("Django")){
+        return "données reçues invalides"
+      };
+      if(typeof(str)=='object'){
+        let string = ""
+        for( let [clef, valeur] of Object.entries(str)){
+          if(typeof(valeur)=='object'){
+            let child = ""
+            for( let [key, value] of Object.entries(valeur)){
+              child += `${key}: ${value} `
             }
-            axios.post(this.url + "/refresh/", { "refresh": refresh })
-                .then((response) => {
-                    this.$store.state.user.access = response.data.access
-                    callback()
-                })
-                .catch(() => {
-                    this.$store.state.user = null;
-                    this.$store.state.notification = {
-                        type: "danger",
-                        message: "Session terminée"
-                    }
-                })
-        },
+            valeur = child;
+          }
+          string+=`${clef}: ${valeur}<br>`
+        }
+        return string;
+      };
+      str = str.toString();
+      return str.replace(/(<style[\w\W]+style>)/g, "").replace( /(<([^>]+)>)/ig, '');
+    },  
+    displayErrorOrRefreshToken(error, callback){
+      if(!!error.response){
+        if(error.response.data.code == "token_not_valid"){ 
+          let refresh = this.$store.state.user.refresh
+          if(!refresh){
+            this.$store.state.user = null;
+            return
+          }
+          axios.post(this.url+"/refresh/", {"refresh":refresh})
+          .then((response) => {
+            this.$store.state.user.access = response.data.access
+            if(typeof callback == "function") callback()
+          }).catch((error) => {
+            this.$store.state.user = null;
+            console.error(error)
+            this.$store.state.alert = {
+              type:"danger", message:this.cleanString(error.response.data)
+            }
+          })
+        } else {
+          console.error(error)
+          this.$store.state.alert = {
+            type:"danger", message:this.cleanString(error.response.data)
+          }
+        }
+      } else {
+        console.error(error)
+      }
+    },
         money(x) {
             x = parseFloat(x).toFixed(0)
             if (!x) return "-";
@@ -121,27 +155,6 @@ app.mixin({
                 'fr-FR', { dateStyle: 'short' }
             ).format(date)
         },
-        convertToHours(n) {
-            var num = n;
-            var hours = num / 60;
-            var rhours = Math.floor(hours);
-            var minutes = (hours - rhours) * 60;
-            var rminutes = Math.round(minutes);
-
-            return (`${rhours ? rhours : 0}h${rminutes ? rminutes : 0
-                }min`);
-        },
-        convertToKilometers(x) {
-            x = x / 1000
-            x = x.toString();
-            x = x.slice(0, x.indexOf(".") + 3);
-            return x ? x : 0;
-        },
-        CalculTotal(x, y) {
-            return x
-                .map((a) => a[y])
-                .reduce((tot, d) => tot + d, 0)
-        },
         fullName(x, y) {
             if (x && y) {
                 return `${x} ${y}`
@@ -153,13 +166,6 @@ app.mixin({
                 return x.length <= 25 ? x : x.substring(0, 25) + '...'
             }
             return ''
-        },
-        pagination(count, pages) {
-            let int_ = parseInt(count / pages);
-            let reste_ = count % pages;
-
-            let list = reste_ ? int_ + 1 : int_;
-            return list ? list : 0;
         },
         getTitle(vm) {
             const { title } = vm.$options
