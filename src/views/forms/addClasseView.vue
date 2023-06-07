@@ -18,7 +18,7 @@
 						item-title="nom"
 						item-value="id"
 						v-model="section"
-						v-if="niveau != 2"
+						v-if="niveau==2"
 					></v-autocomplete>
 					<v-btn color="secondary" type="submit"
 						>{{btn}}</v-btn

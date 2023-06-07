@@ -18,7 +18,7 @@
 				class="btn btn-primary-alt"
 				color="primary"
 				to="/classes/ajouter"
-				v-if="is_admin"
+				v-if="is_directeur"
 			>
 				<ion-icon :src="getIcon('addOutline')"></ion-icon>
 				Ajouter
@@ -37,7 +37,7 @@
 							<th>Niveau</th>
 							<th>Section</th>
 							<th>Cours</th>
-							<th v-if="is_admin" class="action text-center">Actions</th>
+							<th v-if="is_directeur" class="action text-center">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -53,10 +53,10 @@
 									class="btn btn-primary-alt"
 									color="primary"
 									@click="$router.push('/classes/courses/'+classe.id)"
-								>Voir Cours
+								>Voir Eleves
 								</v-btn>
 							</td>
-							<td class="text-center" v-if="is_admin">
+							<td class="text-center" v-if="is_directeur">
 								<v-menu>
 									<template v-slot:activator="{ props }">
 										<v-btn
@@ -130,17 +130,13 @@ export default {
 	methods: {
 		getClasses(){
 			this.fetching=true
-			let link;
-			if(this.is_student)
-				link = `${this.url}/classes/?id=${this.user.current_student.classe.id}`
-			if(this.is_admin)
-				link = `${this.url}/classes/`
-		
+			let link = `${this.url}/classes/`
 			axios.get(link, this.headers)
 			.then((response) => {
 				this.classes = response.data.results
 				this.fetching=false
 			}).catch((error) => {
+				this.fetching=false
 				this.displayErrorOrRefreshToken(error, this.getClasses)
 			})
 		},
@@ -184,9 +180,7 @@ export default {
 		},
 	},
 	mounted() {
-		if (this.user_is("Professeur")) {
-			this.$router.push("/");
-		}else this.getClasses();
+		this.getClasses();
 	},
 };
 </script>

@@ -4,7 +4,6 @@ import Personnel from '../views/PersonnelView.vue'
 import Niveau from '../views/NiveauView.vue'
 import Section from '../views/SectionView.vue'
 import Classe from '../views/ClasseView.vue'
-import Cours from '../views/CoursView.vue'
 
 
 
@@ -23,7 +22,6 @@ const routes = [
     { path: '/sections', name: 'Section', component: Section },
     { path: '/niveaux', name: 'Niveau', component: Niveau },
     { path: '/classes', name: 'Classe', component: Classe },
-    { path: '/cours',component: Cours},
 
 
     // Forms routes
