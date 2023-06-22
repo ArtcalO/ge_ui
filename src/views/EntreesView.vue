@@ -15,7 +15,7 @@
 				style="max-width: 300px"
 			></v-text-field>
 			<v-btn
-				to="/eleves/ajouter"
+				to="/entrees/ajouter"
 				color="primary"
 				class="btn btn-primary"
 			>

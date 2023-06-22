@@ -15,6 +15,7 @@ import addSectionView from '@/views/forms/addSectionView.vue'
 import addClasseView from '@/views/forms/addClasseView.vue'
 import addNiveauView from '@/views/forms/addNiveauView.vue'
 import addEleveView from '@/views/forms/addEleveView.vue'
+import addEntree from '@/views/forms/addEntree.vue'
 //modifier routes
 
 
@@ -34,6 +35,7 @@ const routes = [
     { path: '/classes/ajouter', component: addClasseView },
     { path: '/niveaux/ajouter', component: addNiveauView },
     { path: '/eleves/ajouter', component: addEleveView },
+    { path: '/entrees/ajouter', component: addEntree },
     //modify
 
     { path: '/personnels/modifier/:id', component: ajouterPersonnel },

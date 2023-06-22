@@ -3,38 +3,26 @@
 		<v-row>
 			<v-col cols="8">
 				<v-form @submit.prevent="performAction" class="form">
-					<v-text-field
-						variant="outlined"
-						label="Nom"
-						v-model="nom"
-					></v-text-field>
-					<v-text-field
-						variant="outlined"
-						label="Prénom"
-						v-model="prenom"
-					></v-text-field>
-					<v-text-field
-						variant="outlined"
-						label="Date de naissance"
-						v-model="date_naissance"
-						type="date"
-						required
-					></v-text-field>
-					<v-autocomplete
-						label="Genre"
-						variant="outlined"
-						:items="['Masculin', 'Féminin']"
-						v-model="genre"
-					></v-autocomplete>
 					<v-autocomplete
 						variant="outlined"
-						label="Classes"
-						:items="classes"
-						item-title="classe_full_name"
-						item-value="id"
-						v-model="classe"
+						label="Type Entrée"
+						:items="TYPES_ENTREES"
+						item-title="[0]"
+						item-value="[1]"
+						v-model="type_entree"
 						required
 					></v-autocomplete>
+					<v-text-field
+						variant="outlined"
+						label="Montant"
+						v-model="montant"
+					></v-text-field>
+					<v-text-field
+						variant="outlined"
+						label="Details"
+						v-model="details"
+						required
+					></v-text-field>
 					<v-btn v-if="$route.params.id" class="btn btn-primary" type="submit"
 						>Modifier</v-btn
 					>
@@ -55,62 +43,52 @@ export default {
 	props: ["edit"],
 	data() {
 		return {
-			eleve_actif:[],
-			nom: "",
-			prenom: "",
-			genre: "",
-			date_naissance: "",
-			classe: "",
-			classes:[],
+			entree_actif:[],
+			type_entree: "",
+			montant: "",
+			details: "",
 		};
 	},
 	created(){
 		if(this.$route.params.id){
-			axios.get(`${this.url}/eleves/${this.$route.params.id}/`, this.headers)
+			axios.get(`${this.url}/entrees/${this.$route.params.id}/`, this.headers)
 			.then((res)=>{
-				this.eleve_actif=res.data
+				this.entree_actif=res.data
 			}).catch((err)=>{
 				console.log(erro)
 			}).finally(()=>{
-				this.username =
-					this.eleve_actif.user.username;
-				this.first_name =
-					this.eleve_actif.user.first_name;
-				this.last_name =
-					this.eleve_actif.user.last_name;
-				this.password =
-					this.eleve_actif.user.password;
-				this.telephone =
-					this.eleve_actif.telephone;
-				this.genre = this.eleve_actif.genre;
+				this.type_entree =
+					this.entree_actif.type_entree;
+				this.montant =
+					this.entree_actif.montant;
+				this.details =
+					this.entree_actif.details;
 			})
 			
 		}
 	},
-	beforeMount(){
-		if(this.$store.state.user){
-			this.getClasses()
-		}
+	computed:{
+		TYPES_ENTREES(){
+			return Object.entries(this.$store.state.TYPES_ENTREES)
+		},
 	},
 	methods: {
 		performAction() {
 			let data = new FormData();
-			data.append("nom", this.nom);
-			data.append("prenom", this.prenom);
-			data.append("genre", this.genre);
-			data.append("date_naissance", this.date_naissance);
-			data.append("classe", this.classe);
+			data.append("type_entree", this.type_entree);
+			data.append("montant", this.montant);
+			data.append("details", this.details);
 
 			this.$store.state.loading = true;
 			if (this.$route.params.id) {
 				axios
 					.patch(
-						`${this.url}/eleves/${this.$route.params.id}/`,
+						`${this.url}/entrees/${this.$route.params.id}/`,
 						data,
 						this.headers
 					)
 					.then((res) => {
-						this.$router.push('/eleves')
+						this.$router.push('/entrees')
 						Swal.fire({
 							icon: 'success',
 							title: 'Success...',
@@ -123,13 +101,13 @@ export default {
 					});
 			} else {
 				axios
-					.post(`${this.url}/eleves/`, data, this.headers)
+					.post(`${this.url}/entrees/`, data, this.headers)
 					.then((res) => {
-						this.$router.push("/eleves");
+						this.$router.push("/entrees");
 						Swal.fire({
 							icon: 'success',
 							title: 'Success...',
-							text: 'Eleve ajouté avec succès !',
+							text: 'Entree ajouté avec succès !',
 							footer: 'Success'
 						})
 					})
@@ -142,7 +120,7 @@ export default {
 		},
 		getClasses() {
 			axios
-			.get(`${this.url}/classes/`, this.headers)
+			.get(`${this.url}/entrees/`, this.headers)
 			.then((res) => {
 				this.classes = res.data.results;
 			})

@@ -13,9 +13,17 @@ export default createStore({
         current_cycle: {},
         current_section: {},
         current_classe: {},
-        current_cour: {},
-        current_chapitre: {},
-        current_exercice: {}
+        TYPES_ENTREES : {
+            "AUTRES" : 0,
+            "BUDGET_MINISTRE" : 1,
+            "LOCATION_SALLE" : 2,
+            "LOCATION_TERRAIN" : 3,
+            "LOCATION_CHAMP" : 4,
+            "LOCATION_ATELIER" : 5,
+            "PAIEMENT_MINERVAL" : 6
+        }
+
+
     },
     getters: {},
     mutations: {},
