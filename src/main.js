@@ -216,9 +216,9 @@ app.mixin({
             return this.$store.state.user
         },
         is_directeur(){
-           return this.$store.state.user.is_admin || this.$store.state.user.groups.include("directeur")
+           return this.$store.state.user.is_admin || this.$store.state.user.groups.includes("directeur")
         },
-        is_comptable(){
+        is_econome(){
            return this.$store.state.user.groups.includes('econome')
         },
         url() {

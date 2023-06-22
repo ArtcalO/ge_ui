@@ -76,6 +76,34 @@
 					prepend-icon="mdi-door-open"
 				>
 				</v-list-item>
+
+				 <!-- Econome -->
+
+				 <v-list-item
+					exact
+					v-if="is_directeur | is_econome"
+					to="/entrees"
+					title="Entrées"
+					prepend-icon="mdi-door-open"
+				>
+				</v-list-item>
+				<v-list-item
+					exact
+					v-if="is_directeur | is_econome"
+					to="/sorties"
+					title="Sorties"
+					prepend-icon="mdi-door-open"
+				>
+				</v-list-item>
+				<v-list-item
+					exact
+					v-if="is_directeur | is_econome"
+					to="/payements"
+					title="Payements Eleves"
+					prepend-icon="mdi-door-open"
+				>
+				</v-list-item>
+
 			</v-list>
 		</v-navigation-drawer>
 		<v-main>

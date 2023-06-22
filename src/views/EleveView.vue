@@ -52,7 +52,7 @@
 							<td>{{ eleve.prenom }}</td>
 							<td>{{ eleve.genre }}</td>
 							<td>{{ eleve.date_naissance }}</td>
-							<td>{{ eleve.classe.fullname }}</td>
+							<td>{{ eleve.classe.classe_full_name }}</td>
 							<td class="text-center">
 								<v-menu>
 									<template v-slot:activator="{ props }">

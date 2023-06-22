@@ -5,6 +5,7 @@ import Niveau from '../views/NiveauView.vue'
 import Section from '../views/SectionView.vue'
 import Classe from '../views/ClasseView.vue'
 import Eleve from '../views/EleveView.vue'
+import EntreesView from '../views/EntreesView.vue'
 
 
 
@@ -24,6 +25,7 @@ const routes = [
     { path: '/niveaux', name: 'Niveau', component: Niveau },
     { path: '/classes', name: 'Classe', component: Classe },
     { path: '/eleves', name: 'Eleve', component: Eleve },
+    { path: '/entrees', name: 'EntreesView', component: EntreesView },
 
 
     // Forms routes
