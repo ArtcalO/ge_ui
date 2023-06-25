@@ -44,7 +44,7 @@
 							<td colspan="6"></td>
 						</tr>
 						<tr
-							v-for="eleve in eleves"
+							v-for="eleve in entrees"
 							:key="eleve.id"
 							v-else
 						>
@@ -65,7 +65,7 @@
 
 									<v-list>
 										<v-list-item
-											@click="$router.push('/eleves/modifier/'+eleve.id)"
+											@click="$router.push('/entrees/modifier/'+eleve.id)"
 										>
 											<v-list-item-title>
 												<v-icon
@@ -95,7 +95,7 @@ export default {
 	},
 	data() {
 		return {
-			eleves: [],
+			entrees: [],
 			keyword: "",
 			edit: false,
 			request: {},
@@ -104,23 +104,23 @@ export default {
 		};
 	},
 	methods: {
-		getEleves() {
+		getEntrees() {
 			axios
-				.get(`${this.url}/eleves/`, this.headers)
+				.get(`${this.url}/entrees/`, this.headers)
 				.then((res) => {
-					this.eleves = res.data.results;
+					this.entrees = res.data.results;
 					this.searching = false;
 				})
 				.catch((err) => {
-					this.displayErrorOrRefreshToken(err, this.getEleves);
+					this.displayErrorOrRefreshToken(err, this.getEntrees);
 				});
 		},
 		supprimer(x) {
 			axios
-				.delete(`${this.url}/eleves/${x.id}/`, this.headers)
+				.delete(`${this.url}/entrees/${x.id}/`, this.headers)
 				.then(() => {
-					let id = this.eleves.indexOf((i) => i.id === x.id);
-					this.eleves.splice(id, 1);
+					let id = this.entrees.indexOf((i) => i.id === x.id);
+					this.entrees.splice(id, 1);
 					this.$store.state.notification = {
 						type: "success",
 						message: "Professeur supprimé avec succès",
@@ -136,7 +136,7 @@ export default {
 	},
 	mounted() {
 		if (this.is_directeur) {
-			this.getEleves()
+			this.getEntrees()
 		} else this.$router.push("/");
 	},
 };

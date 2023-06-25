@@ -23,6 +23,7 @@
           :readonly="loading"
           :rules="[required]"
           clearable
+          type="password"
           label="Mot de passe"
           placeholder="Entrer votre mot de passe"
         ></v-text-field>
