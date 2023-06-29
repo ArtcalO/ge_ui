@@ -31,11 +31,11 @@
 				>
 					<thead class="header-table">
 						<tr>
-							<th>Nom</th>
-							<th>Prenom</th>
-							<th>Genre</th>
-							<th>Date de naissance</th>
-							<th>Classe</th>
+							<th>Type Entree</th>
+							<th>Montant</th>
+							<th>Details</th>
+							<th>Date</th>
+							<th>User</th>
 							<th class="action text-center">Actions</th>
 						</tr>
 					</thead>
@@ -44,15 +44,15 @@
 							<td colspan="6"></td>
 						</tr>
 						<tr
-							v-for="eleve in entrees"
-							:key="eleve.id"
+							v-for="entree in entrees"
+							:key="entree.id"
 							v-else
 						>
-							<td>{{ eleve.nom }}</td>
-							<td>{{ eleve.prenom }}</td>
-							<td>{{ eleve.genre }}</td>
-							<td>{{ eleve.date_naissance }}</td>
-							<td>{{ eleve.classe.classe_full_name }}</td>
+							<td>{{ entree.type_entree }}</td>
+							<td>{{  money(entree.montant) }}</td>
+							<td>{{ entree.details }}</td>
+							<td>{{ entree.date }}</td>
+							<td>{{ entree.user }}</td>
 							<td class="text-center">
 								<v-menu>
 									<template v-slot:activator="{ props }">
