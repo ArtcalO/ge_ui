@@ -26,6 +26,7 @@ const routes = [
     { path: '/niveaux', name: 'Niveau', component: Niveau },
     { path: '/classes', name: 'Classe', component: Classe },
     { path: '/eleves', name: 'Eleve', component: Eleve },
+    { path: '/eleves/:class_id', name: 'EleveClass', component: Eleve },
     { path: '/entrees', name: 'EntreesView', component: EntreesView },
 
 

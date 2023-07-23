@@ -53,31 +53,6 @@
 									</template>
 
 									<v-list density="compact">
-										<v-list-item
-											@click="Cycle(niveau)"
-											v-if="niveau.nom == 'Fondamental'"
-										>
-											<v-list-item-title>
-												<v-icon
-													icon="mdi-plus"
-												></v-icon>
-												Cycle</v-list-item-title
-											>
-										</v-list-item>
-										<v-list-item
-											@click="Section(niveau)"
-											v-if="
-												niveau.nom == 'Post Fondamental'
-											"
-										>
-											<v-list-item-title>
-												<v-icon
-													icon="mdi-square-edit-outline"
-												></v-icon>
-												Section</v-list-item-title
-											>
-										</v-list-item>
-										
 										<v-list-item @click="modifier(niveau.id)">
 											<v-list-item-title>
 												<v-icon

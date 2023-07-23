@@ -44,7 +44,7 @@
 							<td colspan="6"></td>
 						</tr>
 						<tr
-							v-for="eleve in eleves"
+							v-for="eleve in filtered_eleves"
 							:key="eleve.id"
 							v-else
 						>
@@ -101,7 +101,24 @@ export default {
 			request: {},
 			searching: false,
 			pages: 0,
-		};
+			filtered_eleves:[]
+		}
+	},
+	watch: {
+		keyword(new_val){
+			if(new_val){
+				this.filtered_eleves = this.eleves.filter( x => {
+					return  JSON.stringify(x).toLowerCase().includes(new_val.toLowerCase())
+				})
+			}else{
+				this.filtered_eleves=this.eleves
+			}
+		},
+		eleves(new_val){
+			if(new_val){
+				this.filtered_eleves=new_val
+			}
+		}
 	},
 	methods: {
 		getEleves() {
@@ -115,28 +132,24 @@ export default {
 					this.displayErrorOrRefreshToken(err, this.getEleves);
 				});
 		},
-		supprimer(x) {
+		getClassEleves(id) {
 			axios
-				.delete(`${this.url}/eleves/${x.id}/`, this.headers)
-				.then(() => {
-					let id = this.eleves.indexOf((i) => i.id === x.id);
-					this.eleves.splice(id, 1);
-					this.$store.state.notification = {
-						type: "success",
-						message: "Professeur supprimé avec succès",
-					};
-					setTimeout(() => {
-						this.closeModal();
-					}, 4000);
+				.get(`${this.url}/eleves/?classe=${id}`, this.headers)
+				.then((res) => {
+					this.eleves = res.data.results;
+					this.searching = false;
 				})
 				.catch((err) => {
-					this.displayErrorOrRefreshToken(err, this.supprimer);
+					this.displayErrorOrRefreshToken(err, this.getEleves);
 				});
 		},
 	},
 	mounted() {
-		if (this.is_directeur) {
-			this.getEleves()
+		if (this.is_directeur || this.is_econome) {
+			if(this.$route.params.class_id)
+				this.getClassEleves(this.$route.params.class_id)
+			else
+				this.getEleves()
 		} else this.$router.push("/");
 	},
 };

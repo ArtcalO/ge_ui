@@ -52,7 +52,7 @@
 								<v-btn
 									class="btn btn-primary-alt"
 									color="primary"
-									@click="$router.push('/classes/courses/'+classe.id)"
+									@click="$router.push('/eleves/'+classe.id)"
 								>Voir Eleves
 								</v-btn>
 							</td>
