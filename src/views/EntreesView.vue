@@ -32,14 +32,14 @@
 				required
 				style="max-width: 150px;max-height:40px"
 			></v-text-field>
-			<v-btn
+			<!-- <v-btn
 				to="/entrees/ajouter"
 				color="primary"
 				class="btn btn-primary"
 			>
 				<ion-icon :src="getIcon('addOutline')"></ion-icon>
 				Chercher
-			</v-btn>
+			</v-btn> -->
 			<v-btn
 				to="/entrees/ajouter"
 				color="primary"
@@ -62,8 +62,8 @@
 							<th>Montant</th>
 							<th>Details</th>
 							<th>Date</th>
-							<th>User</th>
-							<th class="action text-center">Actions</th>
+							<th>Utilisateur</th>
+							<!-- <th class="action text-center">Actions</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -75,12 +75,12 @@
 							:key="entree.id"
 							v-else
 						>
-							<td>{{ entree.type_entree }}</td>
+							<td>{{ getEntreeType(entree.type_entree) }}</td>
 							<td>{{  money(entree.montant) }}</td>
 							<td>{{ entree.details }}</td>
 							<td>{{ entree.date }}</td>
-							<td>{{ entree.user }}</td>
-							<td class="text-center">
+							<td>{{ entree.user.first_name+' '+entree.user.last_name }}</td>
+							<!-- <td class="text-center">
 								<v-menu>
 									<template v-slot:activator="{ props }">
 										<v-btn
@@ -103,7 +103,7 @@
 										</v-list-item>
 									</v-list>
 								</v-menu>
-							</td>
+							</td> -->
 						</tr>
 					</tbody>
 					<tfoot>
@@ -137,6 +137,11 @@ export default {
 			filtered_entrees:[]
 		};
 	},
+	computed:{
+		TYPES_ENTREES(){
+			return Object.entries(this.$store.state.TYPES_ENTREES)
+		},
+	},
 	watch: {
 		keyword(new_val){
 			if(new_val){
@@ -154,6 +159,13 @@ export default {
 		}
 	},
 	methods: {
+		getEntreeType(val){
+			for(let key of this.TYPES_ENTREES){
+			if(key[1] == val){
+				return key[0]
+			}
+			}
+		},
 		getEntrees() {
 			axios
 				.get(`${this.url}/entrees/`, this.headers)
