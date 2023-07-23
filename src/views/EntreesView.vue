@@ -14,6 +14,32 @@
 				v-model="keyword"
 				style="max-width: 300px"
 			></v-text-field>
+			<v-text-field
+				variant="outlined"
+				density="compact"
+				label="Du"
+				v-model="du"
+				type="date"
+				required
+				style="max-width: 150px;max-height:40px"
+			></v-text-field>
+			<v-text-field
+				variant="outlined"
+				density="compact"
+				label="Au"
+				v-model="au"
+				type="date"
+				required
+				style="max-width: 150px;max-height:40px"
+			></v-text-field>
+			<v-btn
+				to="/entrees/ajouter"
+				color="primary"
+				class="btn btn-primary"
+			>
+				<ion-icon :src="getIcon('addOutline')"></ion-icon>
+				Chercher
+			</v-btn>
 			<v-btn
 				to="/entrees/ajouter"
 				color="primary"
@@ -26,6 +52,7 @@
 		<div class="table">
 			<div class="table-container">
 				<v-table
+					fixed-header
 					hover="true"
 					density="compact"
 				>
@@ -44,7 +71,7 @@
 							<td colspan="6"></td>
 						</tr>
 						<tr
-							v-for="entree in entrees"
+							v-for="entree in filtered_entrees"
 							:key="entree.id"
 							v-else
 						>
@@ -79,6 +106,12 @@
 							</td>
 						</tr>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td>Total</td>
+							<td>{{money(filtered_entrees.reduce((sum,el)=>sum+parseInt(el.montant),0))}} Fbu</td>
+						</tr>
+					</tfoot>
 				</v-table>
 			</div>
 		</div>
@@ -101,7 +134,24 @@ export default {
 			request: {},
 			searching: false,
 			pages: 0,
+			filtered_entrees:[]
 		};
+	},
+	watch: {
+		keyword(new_val){
+			if(new_val){
+				this.filtered_entrees = this.entrees.filter( x => {
+					return  JSON.stringify(x).toLowerCase().includes(new_val.toLowerCase())
+				})
+			}else{
+				this.filtered_entrees=this.entrees
+			}
+		},
+		entrees(new_val){
+			if(new_val){
+				this.filtered_entrees=new_val
+			}
+		}
 	},
 	methods: {
 		getEntrees() {
