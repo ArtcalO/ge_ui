@@ -32,14 +32,14 @@
 				required
 				style="max-width: 150px;max-height:40px"
 			></v-text-field>
-			<!-- <v-btn
-				to="/entrees/ajouter"
+			<v-btn
+				@click="exportCsv(filtered_entrees)"
 				color="primary"
 				class="btn btn-primary"
 			>
 				<ion-icon :src="getIcon('addOutline')"></ion-icon>
-				Chercher
-			</v-btn> -->
+				Exporter
+			</v-btn>
 			<v-btn
 				to="/entrees/ajouter"
 				color="primary"
@@ -134,15 +134,17 @@ export default {
 			request: {},
 			searching: false,
 			pages: 0,
+			du:"",
+			au:"",
 			filtered_entrees:[]
 		};
 	},
-	computed:{
-		TYPES_ENTREES(){
-			return Object.entries(this.$store.state.TYPES_ENTREES)
-		},
-	},
 	watch: {
+		au(new_val){
+			if(this.du && new_val){
+				this.getEntrees()
+			}
+		},
 		keyword(new_val){
 			if(new_val){
 				this.filtered_entrees = this.entrees.filter( x => {
@@ -159,40 +161,16 @@ export default {
 		}
 	},
 	methods: {
-		getEntreeType(val){
-			for(let key of this.TYPES_ENTREES){
-			if(key[1] == val){
-				return key[0]
-			}
-			}
-		},
-		getEntrees() {
+		getEntrees(){
+			let link=`${this.url}/entrees/?type_entree=&date__gte=${this.du}&date__lte=${this.au}`
 			axios
-				.get(`${this.url}/entrees/`, this.headers)
+				.get(link, this.headers)
 				.then((res) => {
 					this.entrees = res.data.results;
 					this.searching = false;
 				})
 				.catch((err) => {
 					this.displayErrorOrRefreshToken(err, this.getEntrees);
-				});
-		},
-		supprimer(x) {
-			axios
-				.delete(`${this.url}/entrees/${x.id}/`, this.headers)
-				.then(() => {
-					let id = this.entrees.indexOf((i) => i.id === x.id);
-					this.entrees.splice(id, 1);
-					this.$store.state.notification = {
-						type: "success",
-						message: "Professeur supprimé avec succès",
-					};
-					setTimeout(() => {
-						this.closeModal();
-					}, 4000);
-				})
-				.catch((err) => {
-					this.displayErrorOrRefreshToken(err, this.supprimer);
 				});
 		},
 	},

@@ -143,72 +143,103 @@ app.mixin({
         console.error(error)
       }
     },
-        money(x) {
-            x = parseFloat(x).toFixed(0)
-            if (!x) return "-";
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-        },
-        formatDate(x) {
-            if (!x) return '-'
-            let date = new Date(x)
-            return new Intl.DateTimeFormat(
-                'fr-FR', { dateStyle: 'short' }
-            ).format(date)
-        },
-        fullName(x, y) {
-            if (x && y) {
-                return `${x} ${y}`
+    exportCsv(items){
+        let data = "sep=;\n"
+        let titles = []
+        if(items.length > 0){
+            for(let name of Object.keys(items[0])){
+                if(name != "appareil"){
+                    data += (name + ";")
+                    titles.push(name)
+                }
             }
-            return ''
-        },
-        shortString(x) {
-            if (x) {
-                return x.length <= 25 ? x : x.substring(0, 25) + '...'
+            data += "\n"
+            for(let item of items){
+                for(let title of titles){
+                    if(title=='user')
+                        data += (JSON.stringify(item[title].first_name+' '+item[title].first_name) + ";")
+                    else if(title=='type_entree')
+                        data += (this.getEntreeType(item[title]) + ";")
+                    else data += (JSON.stringify(item[title]) + ";")
+                }
+                data += "\n"
             }
-            return ''
-        },
-        getTitle(vm) {
-            const { title } = vm.$options
-            if (title) {
-                return typeof title === 'function' ?
-                    title.call(vm) :
-                    title
+            window.location = "data:text/csv;base64,77u/" + btoa(data);
+        }
+    },
+    money(x) {
+        x = parseFloat(x).toFixed(0)
+        if (!x) return "-";
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    },
+    formatDate(x) {
+        if (!x) return '-'
+        let date = new Date(x)
+        return new Intl.DateTimeFormat(
+            'fr-FR', { dateStyle: 'short' }
+        ).format(date)
+    },
+    fullName(x, y) {
+        if (x && y) {
+            return `${x} ${y}`
+        }
+        return ''
+    },
+    shortString(x) {
+        if (x) {
+            return x.length <= 25 ? x : x.substring(0, 25) + '...'
+        }
+        return ''
+    },
+    getTitle(vm) {
+        const { title } = vm.$options
+        if (title) {
+            return typeof title === 'function' ?
+                title.call(vm) :
+                title
+        }
+    },
+    clearMenu() {
+        let menus = document.querySelectorAll(".menu-options");
+        menus.forEach((item) => {
+            item.classList.remove("show-menu");
+            item.classList.remove("animate__animated");
+            item.classList.remove("animate__fadeIn");
+        });
+    },
+    triggerNotification(type, message) {
+        this.$store.state.notification = {
+            type: type,
+            message: message
+        }
+    },
+    getRandomElements(arr, n) {
+        var result,
+            len = arr.length,
+            taken = new Array(len);
+        if (n > len){
+            result = new Array(len);
+            n=len
+        }
+        else
+            result = new Array(n);
+        while (n--) {
+            var x = Math.floor(Math.random() * len);
+            result[n] = arr[x in taken ? taken[x] : x];
+            taken[x] = --len in taken ? taken[len] : len;
+        }
+        return result;
+    },
+    getEntreeType(val){
+        for(let key of this.TYPES_ENTREES){
+            if(key[1] == val){
+                return key[0]
             }
-        },
-        clearMenu() {
-            let menus = document.querySelectorAll(".menu-options");
-            menus.forEach((item) => {
-                item.classList.remove("show-menu");
-                item.classList.remove("animate__animated");
-                item.classList.remove("animate__fadeIn");
-            });
-        },
-        triggerNotification(type, message) {
-            this.$store.state.notification = {
-                type: type,
-                message: message
-            }
-        },
-        getRandomElements(arr, n) {
-            var result,
-                len = arr.length,
-                taken = new Array(len);
-            if (n > len){
-                result = new Array(len);
-                n=len
-            }
-            else
-                result = new Array(n);
-            while (n--) {
-                var x = Math.floor(Math.random() * len);
-                result[n] = arr[x in taken ? taken[x] : x];
-                taken[x] = --len in taken ? taken[len] : len;
-            }
-            return result;
-        },
-        currentYear(){
-            return new Date().getFullYear()
-        },
+        }
+    },
+    currentYear(){
+        return new Date().getFullYear()
+    },
     },
     //arr.slice(Math.max(arr.length - 5, 1))
     computed: {
@@ -226,6 +257,9 @@ app.mixin({
         },
         store() {
             return this.$store.state
+        },
+        TYPES_ENTREES(){
+            return Object.entries(this.$store.state.TYPES_ENTREES)
         },
         headers() {
             return {
