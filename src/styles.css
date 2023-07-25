@@ -146,6 +146,17 @@ textarea {
 	border-radius: 8px;
 }
 
+.top-sub-header {
+	padding: var(--padding);
+	display: flex;
+	justify-content: flex-start;
+	background: var(--color-white);
+	border-radius: 8px;
+}
+.top-sub-header>*{
+	margin-right: 10px;
+}
+
 .search {
 	display: flex;
 }

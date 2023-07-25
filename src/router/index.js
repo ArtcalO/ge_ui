@@ -6,6 +6,7 @@ import Section from '../views/SectionView.vue'
 import Classe from '../views/ClasseView.vue'
 import Eleve from '../views/EleveView.vue'
 import EntreesView from '../views/EntreesView.vue'
+import SortiesView from '../views/SortiesView.vue'
 
 
 
@@ -28,6 +29,7 @@ const routes = [
     { path: '/eleves', name: 'Eleve', component: Eleve },
     { path: '/eleves/:class_id', name: 'EleveClass', component: Eleve },
     { path: '/entrees', name: 'EntreesView', component: EntreesView },
+    { path: '/sorties', name: 'SortiesView', component: SortiesView },
 
 
     // Forms routes

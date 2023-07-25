@@ -80,7 +80,7 @@
 							<td>{{ entree.details }}</td>
 							<td>{{ entree.date }}</td>
 							<td>{{ entree.user.first_name+' '+entree.user.last_name }}</td>
-							<td class="text-center">
+							<!-- <td class="text-center">
 								<v-menu>
 									<template v-slot:activator="{ props }">
 										<v-btn
@@ -92,18 +92,18 @@
 
 									<v-list>
 										<v-list-item
-											@click="dialog_loaction=true"
+											@click="$router.push('/entrees/modifier/'+eleve.id)"
 										>
 											<v-list-item-title>
 												<v-icon
 													icon="mdi-square-edit-outline"
 												></v-icon>
-												Details</v-list-item-title
+												Modifier</v-list-item-title
 											>
 										</v-list-item>
 									</v-list>
 								</v-menu>
-							</td>
+							</td> -->
 						</tr>
 					</tbody>
 					<tfoot>
@@ -116,17 +116,15 @@
 			</div>
 		</div>
 		<confirm-delete :request="request" v-on:delete="supprimer" />
-		<DialogLocation v-if="dialog_loaction"></DialogLocation>
 	</div>
 </template>
 
 <script>
 import axios from "axios";
 import ConfirmDelete from "@/components/confirmDelete.vue";
-import DialogLocation from "@/components/dialog_location.vue";
 export default {
 	components: {
-		ConfirmDelete,DialogLocation
+		ConfirmDelete,
 	},
 	data() {
 		return {
@@ -138,7 +136,6 @@ export default {
 			pages: 0,
 			du:"",
 			au:"",
-			dialog_loaction:false,
 			filtered_entrees:[]
 		};
 	},

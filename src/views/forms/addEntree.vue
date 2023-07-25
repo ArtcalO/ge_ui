@@ -4,6 +4,7 @@
 			<v-col cols="8">
 				<v-form @submit.prevent="performAction" class="form">
 					<v-autocomplete
+						density="compact"
 						variant="outlined"
 						label="Type Entrée"
 						:items="TYPES_ENTREES"
@@ -13,16 +14,74 @@
 						required
 					></v-autocomplete>
 					<v-text-field
+						density="compact"
 						variant="outlined"
 						label="Montant"
 						v-model="montant"
 					></v-text-field>
 					<v-text-field
+						v-if="!getEntreeType(type_entree).includes('LOCATION')"
+						density="compact"
 						variant="outlined"
 						label="Details"
 						v-model="details"
 						required
 					></v-text-field>
+					<div class="details_location" v-if="getEntreeType(type_entree).includes('LOCATION')" >
+						<h4>Details Location</h4>
+						<v-text-field
+							density="compact"
+							variant="outlined"
+							label="NOM"
+							v-model="nom"
+							required
+						></v-text-field>
+						<v-text-field
+							density="compact"
+							variant="outlined"
+							label="PRENOM"
+							v-model="prenom"
+							required
+						></v-text-field>
+						<v-text-field
+							density="compact"
+							variant="outlined"
+							label="TELEPHONE"
+							v-model="telephone"
+							required
+						></v-text-field>
+						<v-text-field
+							density="compact"
+							variant="outlined"
+							label="ADRESSE"
+							v-model="adresse"
+							required
+						></v-text-field>
+						<v-text-field
+							density="compact"
+							variant="outlined"
+							label="CNI"
+							v-model="cni"
+							required
+						></v-text-field>
+						<v-text-field
+							density="compact"
+							variant="outlined"
+							label="DATE_DEBUT"
+							v-model="date_debut"
+							type="date"
+							required
+						></v-text-field>
+						<v-text-field
+							density="compact"
+							variant="outlined"
+							label="DATE_FIN"
+							v-model="date_fin"
+							type="date"
+							required
+						></v-text-field>
+
+					</div>
 					<v-btn v-if="$route.params.id" class="btn btn-primary" type="submit"
 						>Modifier</v-btn
 					>
@@ -47,6 +106,13 @@ export default {
 			type_entree: "",
 			montant: "",
 			details: "",
+			nom:"",
+			prenom:"",
+			telephone:"",
+			adresse:"",
+			cni:"",
+			date_debut:"",
+			date_fin:"",
 		};
 	},
 	created(){
@@ -67,18 +133,19 @@ export default {
 			
 		}
 	},
-	computed:{
-		TYPES_ENTREES(){
-			return Object.entries(this.$store.state.TYPES_ENTREES)
-		},
-	},
 	methods: {
 		performAction() {
-			let data = new FormData();
-			data.append("type_entree", this.type_entree);
-			data.append("montant", this.montant);
-			data.append("details", this.details);
-
+			let data = new FormData()
+			data.append("type_entree", this.type_entree)
+			data.append("montant", this.montant)
+			data.append("details", this.details)
+			data.append("nom", this.nom)
+			data.append("prenom", this.prenom)
+			data.append("telephone", this.telephone)
+			data.append("adresse", this.adresse)
+			data.append("cni", this.cni)
+			data.append("date_debut", this.date_debut)
+			data.append("date_fin", this.date_fin)
 			this.$store.state.loading = true;
 			if (this.$route.params.id) {
 				axios
@@ -143,4 +210,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.details_location{
+	padding:10px;
+	border:1px solid gray;
+	border-radius:25px;
+	margin-bottom:20px;
+}
+</style>
