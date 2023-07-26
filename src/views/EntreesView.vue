@@ -80,7 +80,7 @@
 							<td>{{ entree.details }}</td>
 							<td>{{ entree.date }}</td>
 							<td>{{ entree.user.first_name+' '+entree.user.last_name }}</td>
-							<td class="text-center">
+							<td v-if="getEntreeType(entree.type_entree).includes('LOCATION')" class="text-center">
 								<v-menu>
 									<template v-slot:activator="{ props }">
 										<v-btn
@@ -92,7 +92,7 @@
 
 									<v-list>
 										<v-list-item
-											@click="dialog_loaction=true"
+											@click="openDialog(entree)"
 										>
 											<v-list-item-title>
 												<v-icon
@@ -116,7 +116,7 @@
 			</div>
 		</div>
 		<confirm-delete :request="request" v-on:delete="supprimer" />
-		<DialogLocation v-if="dialog_loaction"></DialogLocation>
+		<DialogLocation :detailsProps="detailsEntreeObj" v-if="dialog_loaction" @close="dialog_loaction=false"></DialogLocation>
 	</div>
 </template>
 
@@ -134,6 +134,7 @@ export default {
 			keyword: "",
 			edit: false,
 			request: {},
+			detailsEntreeObj:{},
 			searching: false,
 			pages: 0,
 			du:"",
@@ -164,6 +165,11 @@ export default {
 		}
 	},
 	methods: {
+		openDialog(obj){
+			this.dialog_loaction=true
+			this.detailsEntreeObj=obj
+			console.log(this.detailsEntreeObj)
+		},
 		getEntrees(){
 			let link=`${this.url}/entrees/?type_entree=&date__gte=${this.du}&date__lte=${this.au}`
 			axios

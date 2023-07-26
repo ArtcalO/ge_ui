@@ -103,16 +103,16 @@ export default {
 	data() {
 		return {
 			entree_actif:[],
-			type_entree: "",
-			montant: "",
-			details: "",
-			nom:"",
-			prenom:"",
-			telephone:"",
-			adresse:"",
-			cni:"",
-			date_debut:"",
-			date_fin:"",
+			type_entree : "",
+			montant : "",
+			details : "",
+			nom : "",
+			prenom : "",
+			telephone : "",
+			adresse : "",
+			cni : "",
+			date_debut : "",
+			date_fin : "",
 		};
 	},
 	created(){
